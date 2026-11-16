@@ -1,0 +1,141 @@
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+
+/* Custom CSS */
+
+/* For DATATABLE */
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: white;
+}
+
+.dt-buttons {
+  float: left;
+}
+
+table.dataTable tbody td {
+  padding: 8px 10px;
+  color: #666;
+  vertical-align: middle;
+  font-weight: 300;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid #ddd !important;
+  border-radius: 0px !important;
+}
+
+/* Left Sidebar */
+.am-sideleft-menu {
+  padding: 10px 20px 10px 0px;
+}
+
+.am-sideleft-menu > .nav-item > .nav-link {
+  padding-left: 20px;
+}
+
+.am-sideleft-menu > .nav-item > .nav-link.active {
+  background-color: antiquewhite;
+}
+
+/* LeftSidebar icons sizing */
+.am-sideleft-menu > .nav-item > .nav-link i:first-child {
+  font-size: 17px;
+}
+
+/* Input field  */
+.form-control,
+.dataTables_filter input {
+  font-size: 0.85rem;
+  font-weight: 300;
+}
+/* primereact */
+
+.reactDataTable {
+  text-align: right !important;
+  margin-bottom: 5px;
+}
+.reactDataTable button {
+  margin-left: 5px;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.p-component {
+  font-size: 0.9rem;
+}
+
+/* td {
+    border: 1px solid #eee;
+  }
+  
+  th {
+    border: 1px solid #ccc;
+    border-top: none;
+  } */
+
+.card {
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  /* overflow: hidden; */
+  width: 100%;
+}
+
+label {
+  font-weight: 300;
+  color: #666;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: normal;
+  background: var(--surface-ground);
+  color: var(--text-color);
+  padding: 1rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dashboard .card {
+  overflow: hidden;
+}
+
+.card {
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  /* overflow: hidden; */
+  width: 100%;
+}
+
+.reactDataTable {
+  text-align: right !important;
+  margin-bottom: 5px;
+}
+
+.reactDataTable button {
+  margin-left: 5px;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.p-datatable-header {
+  border-bottom: 1px gray solid;
+}

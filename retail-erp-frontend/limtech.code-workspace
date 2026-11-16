@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../backend"
+    },
+    {
+      "path": "../../acpl"
+    },
+    {
+      "path": "../../bpl"
+    }
+  ],
+  "settings": {}
+}

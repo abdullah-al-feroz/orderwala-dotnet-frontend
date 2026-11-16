@@ -1,0 +1,408 @@
+/* Scoped styles for the Developer Mode Attendance report. Everything is
+   nested under .dma-page so nothing leaks into the rest of the app. */
+
+.dma-page {
+  --dma-primary: #2563eb;
+  --dma-primary-soft: #eff4ff;
+  --dma-success: #16a34a;
+  --dma-success-soft: #ecfdf3;
+  --dma-danger: #dc2626;
+  --dma-danger-soft: #fef2f2;
+  --dma-warning: #d97706;
+  --dma-warning-soft: #fffbeb;
+  --dma-muted: #64748b;
+  --dma-muted-soft: #f1f5f9;
+  --dma-text: #0f172a;
+  --dma-border: #e2e8f0;
+  --dma-radius: 10px;
+  --dma-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+  color: var(--dma-text);
+}
+
+/* ---------- Page header ---------- */
+.dma-page .dma-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.dma-page .dma-header h5 {
+  margin: 0;
+}
+.dma-page .dma-subtitle {
+  font-size: 13px;
+  color: var(--dma-muted);
+  margin-top: 2px;
+}
+
+/* ---------- Cards ---------- */
+.dma-page .dma-card {
+  background: #fff;
+  border: 1px solid var(--dma-border);
+  border-radius: var(--dma-radius);
+  box-shadow: var(--dma-shadow);
+  padding: 20px;
+}
+.dma-page .dma-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--dma-text);
+}
+.dma-page .dma-card-subtitle {
+  font-size: 12px;
+  color: var(--dma-muted);
+  margin: 2px 0 0;
+}
+
+/* ---------- Filter bar ---------- */
+.dma-page .dma-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+}
+.dma-page .dma-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+}
+.dma-page .dma-field label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dma-muted);
+  margin-bottom: 6px;
+}
+.dma-page .dma-field .form-control,
+.dma-page .dma-field .form-select {
+  height: 38px;
+  border-radius: 8px;
+  border-color: var(--dma-border);
+  font-size: 14px;
+}
+.dma-page .dma-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.dma-page .dma-chip {
+  border: 1px solid var(--dma-border);
+  background: #fff;
+  color: var(--dma-muted);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.dma-page .dma-chip:hover {
+  border-color: var(--dma-primary);
+  color: var(--dma-primary);
+}
+.dma-page .dma-chip.active {
+  background: var(--dma-primary-soft);
+  border-color: var(--dma-primary);
+  color: var(--dma-primary);
+  font-weight: 600;
+}
+.dma-page .dma-btn {
+  height: 38px;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* ---------- KPI cards ---------- */
+.dma-page .dma-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+.dma-page .dma-kpi {
+  background: #fff;
+  border: 1px solid var(--dma-border);
+  border-radius: var(--dma-radius);
+  box-shadow: var(--dma-shadow);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.dma-page .dma-kpi::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--kpi-color);
+}
+.dma-page .dma-kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  color: var(--kpi-color);
+  background: var(--kpi-soft);
+}
+.dma-page .dma-kpi-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dma-muted);
+}
+.dma-page .dma-kpi-value {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--dma-text);
+  font-variant-numeric: tabular-nums;
+}
+.dma-page .dma-kpi-meta {
+  font-size: 12px;
+  color: var(--dma-muted);
+}
+.dma-page .kpi-primary { --kpi-color: var(--dma-primary); --kpi-soft: var(--dma-primary-soft); }
+.dma-page .kpi-success { --kpi-color: var(--dma-success); --kpi-soft: var(--dma-success-soft); }
+.dma-page .kpi-muted   { --kpi-color: var(--dma-muted);   --kpi-soft: var(--dma-muted-soft); }
+.dma-page .kpi-danger  { --kpi-color: var(--dma-danger);  --kpi-soft: var(--dma-danger-soft); }
+.dma-page .kpi-warning { --kpi-color: var(--dma-warning); --kpi-soft: var(--dma-warning-soft); }
+
+/* ---------- Day-wise summary table ---------- */
+.dma-page .dma-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+.dma-page .dma-table th {
+  background: #f8fafc;
+  color: var(--dma-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--dma-border);
+  white-space: nowrap;
+}
+.dma-page .dma-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--dma-border);
+  font-variant-numeric: tabular-nums;
+}
+.dma-page .dma-table tr:last-child td {
+  border-bottom: none;
+}
+.dma-page .dma-table .num {
+  text-align: right;
+}
+.dma-page .dma-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.dma-page .dma-bar-track {
+  width: 80px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--dma-muted-soft);
+  overflow: hidden;
+}
+.dma-page .dma-bar-fill {
+  height: 100%;
+  background: var(--dma-danger);
+  border-radius: 3px;
+}
+
+/* ---------- Main table toolbar ---------- */
+.dma-page .dma-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.dma-page .dma-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.dma-page .dma-search {
+  position: relative;
+}
+.dma-page .dma-search .fa {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dma-muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+.dma-page .dma-search input {
+  height: 38px;
+  width: 280px;
+  max-width: 100%;
+  padding-left: 34px;
+  border-radius: 8px;
+  border-color: var(--dma-border);
+  font-size: 14px;
+}
+.dma-page .dma-toolbar .form-select {
+  height: 38px;
+  width: auto;
+  border-radius: 8px;
+  border-color: var(--dma-border);
+  font-size: 14px;
+}
+
+/* ---------- Main table cells ---------- */
+.dma-page .dma-staff {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+}
+.dma-page .dma-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--dma-primary-soft);
+  color: var(--dma-primary);
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dma-page .dma-staff-name {
+  font-weight: 600;
+  color: var(--dma-text);
+  text-decoration: none;
+}
+.dma-page .dma-staff-name:hover {
+  color: var(--dma-primary);
+  text-decoration: underline;
+}
+.dma-page .dma-sub {
+  font-size: 12px;
+  color: var(--dma-muted);
+}
+.dma-page .dma-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.dma-page .dma-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.dma-page .badge-on   { background: var(--dma-danger-soft);  color: var(--dma-danger); }
+.dma-page .badge-off  { background: var(--dma-success-soft); color: var(--dma-success); }
+.dma-page .badge-type { background: var(--dma-muted-soft);   color: var(--dma-muted); font-size: 11px; padding: 2px 8px; }
+.dma-page .dma-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--dma-primary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.dma-page .dma-time:hover {
+  text-decoration: underline;
+}
+.dma-page .dma-absent {
+  color: #cbd5e1;
+}
+
+/* ---------- PrimeReact DataTable polish ---------- */
+.dma-page .p-datatable {
+  font-size: 13px;
+}
+.dma-page .p-datatable .p-datatable-thead > tr > th {
+  background: #f8fafc;
+  color: var(--dma-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 10px 12px;
+  white-space: nowrap;
+  border-color: var(--dma-border);
+}
+.dma-page .p-datatable .p-datatable-thead > tr > th.dma-date-head {
+  text-align: center;
+  color: var(--dma-text);
+  background: #eef2f7;
+}
+.dma-page .p-datatable .p-datatable-thead > tr > th.dma-date-head .p-column-header-content {
+  justify-content: center;
+}
+.dma-page .p-datatable .p-datatable-tbody > tr > td {
+  padding: 10px 12px;
+  border-color: var(--dma-border);
+  vertical-align: middle;
+}
+.dma-page .p-datatable .p-datatable-tbody > tr:hover > td {
+  background: #f8fafc;
+}
+.dma-page .p-datatable .p-datatable-tbody > tr.dma-row-flag > td:first-child {
+  box-shadow: inset 3px 0 0 var(--dma-danger);
+}
+.dma-page .p-datatable .p-paginator {
+  border: none;
+  padding-top: 12px;
+}
+.dma-page .dma-empty {
+  text-align: center;
+  padding: 32px 0;
+  color: var(--dma-muted);
+}
+.dma-page .dma-empty .fa {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+}
+
+@media (max-width: 576px) {
+  .dma-page .dma-card {
+    padding: 14px;
+  }
+  .dma-page .dma-field,
+  .dma-page .dma-search input {
+    width: 100%;
+    min-width: 0;
+  }
+  .dma-page .dma-search {
+    width: 100%;
+  }
+}

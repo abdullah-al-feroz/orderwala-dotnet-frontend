@@ -1,0 +1,369 @@
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+
+/* Custom CSS */
+
+/* For DATATABLE */
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: white;
+}
+.dt-buttons {
+  float: left;
+}
+table.dataTable tbody td {
+  padding: 8px 10px;
+  color: #666;
+  vertical-align: middle;
+  font-weight: 300;
+}
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid #ddd !important;
+  border-radius: 0px !important;
+}
+
+/* Left Sidebar */
+.am-sideleft-menu {
+  padding: 10px 20px 10px 0px;
+}
+.am-sideleft-menu > .nav-item > .nav-link {
+  padding-left: 20px;
+}
+.am-sideleft-menu > .nav-item > .nav-link.active {
+  background-color: antiquewhite;
+}
+
+/* LeftSidebar icons sizing */
+.am-sideleft-menu > .nav-item > .nav-link i:first-child {
+  font-size: 17px;
+}
+
+/* Input field  */
+.form-control,
+.dataTables_filter input {
+  font-size: 0.85rem;
+  font-weight: 300;
+}
+label {
+  font-weight: 300;
+  color: #666;
+}
+
+/* primereact */
+
+.reactDataTable {
+  text-align: right !important;
+  margin-bottom: 5px;
+}
+.reactDataTable button {
+  margin-left: 5px;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.p-component {
+  font-size: 0.9rem;
+}
+
+/* td {
+  border: 1px solid #eee;
+}
+
+th {
+  border: 1px solid #ccc;
+  border-top: none;
+} */
+
+.card {
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  /* overflow: hidden; */
+  width: 100%;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: normal;
+  background: #e9edf0;
+  /* background: var(--surface-ground); */
+  color: var(--text-color);
+  /* padding: 1rem; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dashboard .card {
+  overflow: hidden;
+}
+
+.dashboardCard {
+  padding: 0 !important;
+}
+
+.noMargin {
+  margin-bottom: 0 !important;
+}
+.p-datatable-header {
+  border-bottom: 0px;
+}
+
+.am-logo {
+  color: #2a2962 !important;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: #e0e0e0;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.text-xs {
+  border: none;
+}
+
+.searching {
+  margin-left: 20px;
+  border: none;
+}
+
+.select__menu {
+  z-index: 9999999999999 !important;
+}
+
+.searching .p-inputtext {
+  font-family: var(--font-family);
+  font-feature-settings: var(--font-feature-settings, normal);
+  font-size: 1rem;
+  color: #4b5563;
+  background: transparent;
+  padding: 2px;
+  border: none;
+  border-bottom: 1px solid;
+  transition: background-color 0.3s, color 0.2s;
+  appearance: none;
+  border-radius: 0;
+  outline-color: transparent;
+}
+
+.headerIcons {
+  display: inline;
+}
+
+.card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.am-header {
+  background: #fff;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.3rem 1rem;
+}
+
+.am-pagebody {
+  padding: 15px 35px 5px;
+}
+
+/* .p-progress-spinner {
+  position: relative;
+  height: 90vh;
+  display: inline-block;
+} */
+
+.dashLoad {
+  /* height: 90vh; */
+  width: 100%;
+  /* margin: 0 auto; */
+}
+.dashLoad svg {
+  height: 90vh;
+  width: 8%;
+  margin: 0 auto;
+}
+
+ol,
+ul {
+  padding-left: 0;
+}
+
+.drop {
+  width: 100%;
+  padding: 0px;
+}
+
+/* drop  */
+
+.p-dropdown-panel ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 0rem;
+}
+
+.p-dropdown-panel .p-dropdown-items {
+  padding: 0 0;
+}
+
+.p-dropdown-panel .p-dropdown-header {
+  padding: 5px 1.25rem;
+  /* border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+    background: #f9fafb;
+    margin: 0;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px; */
+}
+
+/* .exitIcon {
+  margin: 0 auto;
+} */
+
+.p-progress-spinner {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  height: 100px;
+  display: inline-block;
+}
+
+.modal-xl {
+  width: 60% !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .am-pagebody,
+  .dashboardTab {
+    padding: 0px;
+  }
+  .am-pagebody .card {
+    border-radius: 0px;
+  }
+  .dashboardTab #myTab li {
+    width: 50%;
+  }
+  .dashboardTab #myTab li button {
+    width: 100%;
+    text-align: center;
+  }
+  #dashboard-tab div .row .col-md-6 .card:hover {
+    background-color: #272c68;
+  }
+  #dashboard-tab div .row .col-md-6 .card:hover span,
+  #dashboard-tab div .row .col-md-6 .card:hover a {
+    color: white;
+    font-weight: bold;
+  }
+  #dashboard-tab div .row .col-md-6 .card span,
+  #dashboard-tab div .row .col-md-6 .card a,
+  #dashboard-tab div .row .col-md-6 .card label {
+    text-align: center;
+  }
+  .nav-tabs .nav-link.active,
+  .nav-tabs .nav-item.show .nav-link {
+    color: white;
+    background-color: #272c68;
+    border-color: #ddd #ddd #d8dce3;
+    font-weight: bold;
+  }
+  .nav-tabs .nav-link {
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+  }
+  .modal-xl {
+    width: 90% !important;
+  }
+  .margin-bottom-on-mobile {
+    margin-bottom: 10px;
+  }
+  .reactDataTable .p-column-filter {
+    display: none !important;
+  }
+  /* .reactDataTable .searching{
+    display: none !important; 
+  } */
+}
+
+.active-row {
+  background-color: green !important;
+  color: white !important;
+}
+
+#AllDistributorStockReport
+  .p-column-filter.p-dropdown.p-component.p-inputwrapper.p-dropdown-clearable.p-inputwrapper-filled {
+  display: none;
+}
+#AllDistributorStockReport .p-paginator-bottom.p-paginator.p-component {
+  display: none;
+}
+#AllDistributorStockReportForStaff .p-paginator-bottom.p-paginator.p-component {
+  display: none;
+}
+#AllDistributorStockReportForStaff
+  .p-column-filter.p-dropdown.p-component.p-inputwrapper.p-dropdown-clearable.p-inputwrapper-filled {
+  text-align: center;
+}
+.SearchHide span.searching {
+  opacity: 0;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination1 button.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+.pagination1 button:hover:not(.active) {
+  background-color: #ddd;
+}
+
+.pagination3 button {
+  transition: background-color 0.3s;
+}
+.pagination4 button:not(.active) {
+  border: 1px solid #ddd;
+}
+.pagination4 button.active {
+  border: 1px solid #4caf50;
+}
+
+.pagination .page-item .page-link {
+  width: 50px;
+}
+.pagination .active .page-link {
+  background-color: #2d3a50;
+  color: #fff;
+}
+
+#RouteWiseCustomer .p-paginator-bottom.p-paginator.p-component {
+  display: none;
+}

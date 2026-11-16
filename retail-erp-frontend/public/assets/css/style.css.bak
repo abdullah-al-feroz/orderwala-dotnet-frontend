@@ -1,0 +1,32 @@
+.selected {
+  border: 2px green solid !important;
+}
+.sale-table-responsive .dataTables_wrapper .dt-buttons,
+.sale-table-responsive .dataTables_wrapper table thead,
+.sale-table-responsive .dataTables_wrapper .dataTables_info {
+  display: none;
+}
+.box.box-primary {
+    border-top-color: #3c8dbc;
+}
+
+.report_style {
+    font-size: 13px;
+    padding-left: 2%;
+}
+.report_style a {
+    display: block;
+    color: #777;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 10px;
+    transform: scale(1);
+    transition: all 0.3s;
+}
+.report_style a span {
+    margin-left: 10px;
+}
+.report_style a:hover {
+    color: rgb(74, 147, 255);
+    background-color: #f9f9f9;
+    transform: scale(1.05);
+}

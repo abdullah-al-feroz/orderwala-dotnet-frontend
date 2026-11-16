@@ -1,0 +1,333 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Http from "../../../Common/Http";
+import IsLogin from "../../../Common/IsLogin";
+import { LoaderComponent } from "../../../Common/LoaderComponent";
+import useRequiredFields from "../../../../hooks/useRequiredFields";
+import Select from "react-select";
+
+const Create = () => {
+  const navigate = useNavigate();
+  const [inputs, setInputs] = useState({});
+  const [error, setError] = useState({});
+  const [product, setProduct] = useState([]);
+  const { checkRequiredFields } = useRequiredFields();
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const displayError = (fieldName) => {
+    if (error && error[fieldName]) {
+      return <div className="text-danger small">{error[fieldName]}</div>;
+    }
+    return null;
+  };
+  
+  const selectHandleChange = (selectedOption, actionMeta) => {
+    const name = actionMeta.name;
+    const value = selectedOption.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  
+  const fetchData = async () => {
+    Http.get("/productSelect2").then((res) => {
+      setProduct(res.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  const toggleChange = (e) => {
+    const name = e.target.name;
+    const value = !e.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const formSubmit = () => {
+    // Create a copy of inputs to modify before submission
+    const formData = {...inputs};
+    
+    // Handle validation for discount_value based on items
+    if (formData.items && formData.items.length > 0) {
+      formData.discount_value = null;
+      // Remove discount_value from required fields check
+      const requiredFields = document.querySelectorAll('[data-required]');
+      requiredFields.forEach(field => {
+        if (field.name === 'discount_value') {
+          field.removeAttribute('data-required');
+        }
+      });
+    } else if (!formData.discount_value) {
+      // If no items and no discount_value, show error
+      setError({...error, discount_value: "Discount value is required when no items are selected"});
+      return;
+    }
+    
+    if (checkRequiredFields()) {
+      Http.post("/coupon-offer", formData)
+        .then((res) => {
+          navigate("/coupon-offer", {
+            state: { message: res.data.message, type: "success" },
+          });
+        })
+        .catch(function (e) {
+          setError(e.response.data.errors);
+        });
+    }
+  };
+
+  return (
+    <div>
+      <IsLogin></IsLogin>
+      <LoaderComponent />
+      <div className="am-mainpanel">
+        <div className="am-pagetitle">
+          <h5 className="am-title">Create Coupon Offer</h5>
+        </div>
+        <div className="am-pagebody">
+          <div className="card pd-20 pd-sm-40">
+            <h6 className="card-body-title mg-sm-b-30">
+              Create Coupon Offer Form
+            </h6>
+            <div className="row">
+              <div className="col-lg">
+                <label htmlFor="">
+                  Title <i className="fa fa-star required"></i>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="title"
+                  value={inputs.title || ""}
+                  onChange={handleChange}
+                  placeholder="Title"
+                  data-required
+                />
+                {displayError("title")}
+              </div>
+              <div className="col-lg">
+                <label htmlFor="">
+                  Circular Number <i className="fa fa-star required"></i>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="circular_number"
+                  value={inputs.circular_number || ""}
+                  onChange={handleChange}
+                  placeholder="Circular Number"
+                  data-required
+                />
+                {displayError("circular_number")}
+              </div>
+              <div className="col-lg">
+                <label htmlFor="">
+                  Discount Value <i className="fa fa-star required"></i>
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  name="discount_value"
+                  value={inputs.items && inputs.items.length > 0 ? "" : (inputs.discount_value || "")}
+                  onChange={handleChange}
+                  placeholder="Discount Value"
+                  disabled={inputs.items && inputs.items.length > 0}
+                  data-required
+                />
+                {displayError("discount_value")}
+              </div>
+            </div>
+
+            <div className="row mt-3">
+              <div className="col-lg">
+                <label>
+                  Minimum Purchase <i className="fa fa-star required"></i>
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  name="minimum_purchase"
+                  value={inputs.minimum_purchase || ""}
+                  onChange={handleChange}
+                  placeholder="Minimum Purchase"
+                  data-required
+                />
+                {displayError("minimum_purchase")}
+              </div>
+              <div className="col-lg">
+                <label>
+                  Minimum Coupon Amount <i className="fa fa-star required"></i>
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  name="minimum_coupon_amount"
+                  value={inputs.minimum_coupon_amount || ""}
+                  onChange={handleChange}
+                  placeholder="Minimum Coupon Amount"
+                  data-required
+                />
+                {displayError("minimum_coupon_amount")}
+              </div>
+              <div className="col-lg">
+                <label>
+                  Description
+                </label>
+                <textarea
+                  className="form-control"
+                  name="description"
+                  value={inputs.description || ""}
+                  onChange={handleChange}
+                  placeholder="Description"
+                />
+                {displayError("description")}
+              </div>
+            </div>
+
+            <div className="row mt-3">
+              <div className="col-lg-3">
+                <label>
+                  Start Date <i className="fa fa-star required"></i>
+                </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="start_date"
+                  value={inputs.start_date || ""}
+                  onChange={handleChange}
+                  placeholder="Start Date"
+                  data-required
+                />
+                {displayError("start_date")}
+              </div>
+              <div className="col-lg-3">
+                <label>
+                  End Date <i className="fa fa-star required"></i>
+                </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="end_date"
+                  value={inputs.end_date || ""}
+                  onChange={handleChange}
+                  placeholder="End Date"
+                  data-required
+                />
+                {displayError("end_date")}
+              </div>
+              <div className="col-lg-2 mt-5">
+                <label className="mr-2">Available for MDO</label>
+                <input
+                  type="checkbox"
+                  name="available_for_mdo"
+                  value={inputs.available_for_mdo || ""}
+                  onChange={toggleChange}
+                />
+                {displayError("available_for_mdo")}
+              </div>
+              <div className="col-lg mt-5"></div>
+            </div>
+
+            <div className="row mt-3">
+              <div className="col-lg-12">
+                <label>
+                  Coupon Offer Items <i className="fa fa-star required"></i>
+                </label>
+                <div className="table-responsive">
+                  <table className="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {inputs.items && inputs.items.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <Select
+                              className="basic-single"
+                              classNamePrefix="select"
+                              name={`items[${index}].product_id`}
+                              options={product}
+                              onChange={(selectedOption) => {
+                                const newItems = [...inputs.items];
+                                newItems[index].product_id = selectedOption.value;
+                                setInputs({...inputs, items: newItems});
+                                
+                                // When items are added, disable discount_value field
+                                if (inputs.discount_value) {
+                                  setInputs(prev => ({...prev, discount_value: ""}));
+                                }
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              className="form-control"
+                              name={`items[${index}].qty`}
+                              value={item.qty || ""}
+                              onChange={(e) => {
+                                const newItems = [...inputs.items];
+                                newItems[index].qty = e.target.value;
+                                setInputs({...inputs, items: newItems});
+                              }}
+                              placeholder="Quantity"
+                            />
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-danger btn-sm"
+                              onClick={() => {
+                                const newItems = inputs.items.filter((_, i) => i !== index);
+                                setInputs({...inputs, items: newItems});
+                              }}
+                            >
+                              <i className="fa fa-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <button
+                  className="btn btn-info btn-sm"
+                  onClick={() => {
+                    const items = inputs.items || [];
+                    setInputs({
+                      ...inputs,
+                      items: [...items, { product_id: "", qty: "" }]
+                    });
+                  }}
+                >
+                  <i className="fa fa-plus"></i> Add Item
+                </button>
+              </div>
+            </div>
+
+            <div className="row mt-3">
+              <div className="col-3">
+                <button
+                  className="btn btn-primary btn-block mg-b-10"
+                  onClick={formSubmit}
+                >
+                  <i className="fa fa-send mg-r-10"></i> Create
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Create;

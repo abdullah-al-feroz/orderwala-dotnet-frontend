@@ -1,0 +1,427 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import Http from "../../../../Common/Http";
+import IsLogin from "../../../../Common/IsLogin";
+import DatatableFunc from "../../../../Common/DatatableFunc";
+import FormValidation from "../../../../Common/FormValidation";
+import { LoaderComponent } from "../../../../Common/LoaderComponent";
+
+const Create = () => {
+  const navigate = useNavigate();
+  const [inputs, setInputs] = useState({
+    target_month: "january",
+    target_year: 2023,
+  });
+  const [error, setError] = useState({});
+  const [region, setRegion] = useState({});
+  const [area, setArea] = useState({});
+  const [base, setBase] = useState({});
+  const [notFound, setNotFound] = useState();
+  const [product, setProduct] = useState({});
+  const [baseWiseProduct, setBaseWiseProduct] = useState({});
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target; // Chanages Experience Input Name and Value
+    const inputInfo = [...baseWiseProduct]; // Defined Experience State All Information into List Variable
+
+    const nameSplit = name.split("_");
+    const productId = nameSplit[1];
+    const baseId = nameSplit[2];
+
+    inputInfo[productId][baseId] = value;
+    setBaseWiseProduct(inputInfo);
+  };
+
+  // Default Load
+  const fetchData = () => {
+    Http.get("/regionSelect2").then((res) => {
+      setRegion(res.data);
+    });
+    Http.get("/product?status=active").then((res) => {
+      setProduct(res.data);
+    });
+  };
+  useEffect(() => {
+    fetchData();
+    DatatableFunc();
+  }, []);
+  // End Default Load
+
+  // Area Load Region Change Wise
+  // const areaRegionWise = (e) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+
+  //   Http.get("/region-wise-area/" + value).then((res) => {
+  //     setArea(res.data);
+  //   });
+
+  //   setInputs((values) => ({ ...values, [name]: value }));
+  // };
+  const areaRegionWise = (selectedOption, actionMeta) => {
+    const name = actionMeta.name;
+    const value = selectedOption.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+
+    Http.get("/region-wise-area2/" + value).then((res) => {
+      setArea(res.data);
+    });
+
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  // Base Load Region Change Wise
+  const baseRegionWise = (selectedOption, actionMeta) => {
+    const name = actionMeta.name;
+    const value = selectedOption.value;
+    inputs.work_place_area_id = value;
+    Http.post("/target-edit", inputs)
+      .then((res) => {
+        let targetId = res.data.target_id;
+        let targetList = res.data.list;
+
+        if (targetId > 0) {
+          const listDetail = new Array();
+          Object.keys(product).forEach((productKey) => {
+            listDetail[product[productKey].id] = new Array();
+            Object.keys(targetList).forEach((key) => {
+              if (targetList[key].item_id == product[productKey].id) {
+                listDetail[product[productKey].id][targetList[key].base_id] =
+                  new Array();
+                listDetail[product[productKey].id][targetList[key].base_id] =
+                  targetList[key].target_qty;
+              }
+            });
+          });
+
+          Http.get("/area-wise-base/" + value).then((res) => {
+            setBase(res.data);
+
+            const listInfo = new Array();
+            Object.keys(product).forEach((key) => {
+              listInfo[product[key].id] = new Array();
+              Object.keys(res.data).forEach((baseKey) => {
+                let productId = product[key].id;
+                let baseId = res.data[baseKey].id;
+                listInfo[product[key].id][baseId] = new Array();
+                if (listDetail[productId][baseId] > 0)
+                  listInfo[productId][baseId] = listDetail[productId][baseId];
+                else listInfo[productId][baseId] = 0;
+              });
+            });
+            setBaseWiseProduct(listInfo);
+          });
+        } else {
+          setBase({});
+          setNotFound(
+            "No Target Found for this Month,Region & Area! Please choose the right one !"
+          );
+        }
+      })
+      .catch(function (e) {
+        setError(e.response.data.errors);
+      });
+
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const formSubmit = () => {
+    inputs.items = baseWiseProduct;
+    Http.post("/target-update", inputs)
+      .then((res) => {
+        navigate("/monthly-target", {
+          state: { message: res.data.message, type: res.data.type },
+        });
+      })
+      .catch(function (e) {
+        setError(e.response.data.errors);
+      });
+  };
+
+  return (
+    <div>
+      <IsLogin></IsLogin>
+      <LoaderComponent />
+      <div className="am-mainpanel">
+        <div className="am-pagetitle">
+          <h5 className="am-title">Monthly Target</h5>
+        </div>
+        <div className="am-pagebody">
+          <div className="card pd-20 pd-sm-40">
+            <h6 className="card-body-title mg-sm-b-30">Edit Monthly Target</h6>
+            <div className="row">
+              <div className="col-lg">
+                <FormValidation error={error} />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg mg-t-10 mg-lg-t-0">
+                <label>Target Month</label>
+                <select
+                  className="form-control"
+                  name="target_month"
+                  onChange={handleChange}
+                >
+                  <option
+                    value="january"
+                    selected={inputs.status === "january" ? true : false}
+                  >
+                    January
+                  </option>
+                  <option
+                    value="february"
+                    selected={inputs.status === "february" ? true : false}
+                  >
+                    February
+                  </option>
+                  <option
+                    value="march"
+                    selected={inputs.status === "march" ? true : false}
+                  >
+                    March
+                  </option>
+                  <option
+                    value="april"
+                    selected={inputs.status === "april" ? true : false}
+                  >
+                    April
+                  </option>
+                  <option
+                    value="may"
+                    selected={inputs.status === "may" ? true : false}
+                  >
+                    May
+                  </option>
+                  <option
+                    value="june"
+                    selected={inputs.status === "june" ? true : false}
+                  >
+                    June
+                  </option>
+                  <option
+                    value="july"
+                    selected={inputs.status === "july" ? true : false}
+                  >
+                    July
+                  </option>
+                  <option
+                    value="august"
+                    selected={inputs.status === "august" ? true : false}
+                  >
+                    August
+                  </option>
+                  <option
+                    value="september"
+                    selected={inputs.status === "september" ? true : false}
+                  >
+                    September
+                  </option>
+                  <option
+                    value="october"
+                    selected={inputs.status === "october" ? true : false}
+                  >
+                    October
+                  </option>
+                  <option
+                    value="november"
+                    selected={inputs.status === "november" ? true : false}
+                  >
+                    November
+                  </option>
+                  <option
+                    value="december"
+                    selected={inputs.status === "december" ? true : false}
+                  >
+                    December
+                  </option>
+                </select>
+              </div>
+              <div className="col-lg mg-t-10 mg-lg-t-0">
+                <label>Target Year</label>
+                <select
+                  className="form-control"
+                  name="target_year"
+                  onChange={handleChange}
+                >
+                  <option
+                    value="2023"
+                    selected={inputs.status === "2023" ? true : false}
+                  >
+                    2023
+                  </option>
+                  <option
+                    value="2024"
+                    selected={inputs.status === "2024" ? true : false}
+                  >
+                    2024
+                  </option>
+                  <option
+                    value="2025"
+                    selected={inputs.status === "2025" ? true : false}
+                  >
+                    2025
+                  </option>
+                  <option
+                    value="2026"
+                    selected={inputs.status === "2026" ? true : false}
+                  >
+                    2026
+                  </option>
+                  <option
+                    value="2027"
+                    selected={inputs.status === "2027" ? true : false}
+                  >
+                    2027
+                  </option>
+                  <option
+                    value="2028"
+                    selected={inputs.status === "2028" ? true : false}
+                  >
+                    2028
+                  </option>
+                  <option
+                    value="2029"
+                    selected={inputs.status === "2029" ? true : false}
+                  >
+                    2029
+                  </option>
+                  <option
+                    value="2030"
+                    selected={inputs.status === "2030" ? true : false}
+                  >
+                    2030
+                  </option>
+                </select>
+              </div>
+              <div className="col-lg mg-t-10 mg-lg-t-0">
+                <label>
+                  Region <i className="fa fa-star required"></i>
+                </label>
+                {/* <select
+                  className="form-control"
+                  name="work_place_region_id"
+                  onChange={areaRegionWise}
+                >
+                  <option value="">Select Region</option>
+                  {Array.from(region).map((item, index) => (
+                    <option value={item.id}>{item.name}</option>
+                  ))}
+                </select> */}
+
+                <Select
+                  className="basic-single"
+                  classNamePrefix="select"
+                  defaultValue={region[0]}
+                  name="work_place_region_id"
+                  options={region}
+                  onChange={areaRegionWise}
+                />
+              </div>
+              <div className="col-lg mg-t-10 mg-lg-t-0">
+                <label>
+                  Area <i className="fa fa-star required"></i>
+                </label>
+                {/* <select
+                  className="form-control"
+                  name="work_place_area_id"
+                  onChange={baseRegionWise}
+                >
+                  <option value="">Select Area</option>
+                  {Array.from(area).map((item, index) => (
+                    <option value={item.id}>{item.name}</option>
+                  ))}
+                </select> */}
+                <Select
+                  className="basic-single"
+                  classNamePrefix="select"
+                  defaultValue={area[0]}
+                  name="work_place_area_id"
+                  options={area}
+                  onChange={baseRegionWise}
+                />
+              </div>
+            </div>
+            <div className="row mt-3">
+              {base.length > 0 ? (
+                <div className="table-responsive p-0 pb-2">
+                  <table className="table table-sm table-bordered table-striped align-items-center justify-content-center mb-0 datatable">
+                    <thead>
+                      <tr>
+                        <th className="text-uppercase text-dark text-sm font-weight-bolder ps-2">
+                          Sl
+                        </th>
+                        <th className="text-uppercase text-dark text-sm font-weight-bolder ps-2">
+                          FG
+                        </th>
+                        {Array.from(base).map((item, index) => (
+                          <th className="text-uppercase text-dark text-sm font-weight-bolder ps-2">
+                            {item.name}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product.length > 0
+                        ? product.map((item, index) => (
+                            <tr key={item.id}>
+                              <td className="text-xs">{index + 1}</td>
+                              <td className="text-xs">
+                                {item.code} - {item.name}
+                              </td>
+                              {Array.from(base).map((baseList, baseIndex) => (
+                                <td className="text-xs">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name={"name_" + item.id + "_" + baseList.id}
+                                    value={
+                                      baseWiseProduct[item.id][baseList.id] ||
+                                      ""
+                                    }
+                                    onChange={(e) =>
+                                      handleInputChange(e, index)
+                                    }
+                                  />
+                                </td>
+                              ))}
+                            </tr>
+                          ))
+                        : ""}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <h5 className="text-center mt-5" style={{ color: "red" }}>
+                  {notFound}
+                </h5>
+              )}
+            </div>
+            {base.length > 0 ? (
+              <div className="row mt-3">
+                <div className="col-3">
+                  <button
+                    className="btn btn-primary btn-block mg-b-10"
+                    onClick={formSubmit}
+                  >
+                    <i className="fa fa-send mg-r-10"></i> Update
+                  </button>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          {/* card */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Create;
