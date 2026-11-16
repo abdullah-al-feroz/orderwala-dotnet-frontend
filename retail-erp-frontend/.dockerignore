@@ -1,0 +1,30 @@
+node_modules
+build
+build.zip
+coverage
+
+# VCS / editor
+.git
+.gitignore
+.vscode
+.idea
+*.code-workspace
+
+# local logs / notes
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+query.txt
+
+# local-only env overrides (keep .env.development / .env.production!)
+.env
+.env.local
+.env.*.local
+
+# deployment docs don't belong in the image
+DEPLOY_DOKPLOY.md
+README.md
+Dockerfile
+docker-compose.yml
+.dockerignore

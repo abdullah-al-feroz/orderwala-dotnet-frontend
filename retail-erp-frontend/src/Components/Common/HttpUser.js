@@ -1,7 +1,9 @@
 import axios from "axios";
 
+// UserManagementServices (.NET, https://localhost:7084/api/UserManagement in development).
+// In production this is proxied by nginx under the same origin, which avoids CORS.
 const HttpUser = axios.create({
-  baseURL: "https://localhost:7084/api/UserManagement",
+  baseURL: process.env.REACT_APP_USER_API || "/dotnet/um/api/UserManagement",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

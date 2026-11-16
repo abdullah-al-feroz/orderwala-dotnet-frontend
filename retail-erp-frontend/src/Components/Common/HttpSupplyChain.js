@@ -1,7 +1,9 @@
 import axios from "axios";
 
+// SupplyChainServices (.NET, https://localhost:7031/api in development).
+// In production this is proxied by nginx under the same origin, which avoids CORS.
 const HttpSupplyChain = axios.create({
-  baseURL: "https://localhost:7031/api",
+  baseURL: process.env.REACT_APP_SC_API || "/dotnet/sc/api",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

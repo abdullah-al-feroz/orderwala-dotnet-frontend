@@ -13,7 +13,9 @@
 /build
 /build.zip
 
-/src/Components/Common/Http.js
+# NOTE: src/Components/Common/Http.js is intentionally tracked.
+# It used to be ignored, which meant a fresh clone (Dokploy) had no Http.js
+# and the build failed with "Can't resolve './Common/Http'".
 
 # misc
 .DS_Store
@@ -25,5 +27,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-src/Components/Common/Http.js
-src/Components/Common/Http.js

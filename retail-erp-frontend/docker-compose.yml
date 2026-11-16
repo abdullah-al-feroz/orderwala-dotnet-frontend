@@ -1,0 +1,36 @@
+# Docker Compose deployment for Dokploy (or plain `docker compose up -d --build`).
+#
+# Runtime variables (HR_UPSTREAM, UM_UPSTREAM, SC_UPSTREAM) can be changed
+# without rebuilding. REACT_APP_* are baked into the bundle at build time.
+#
+#   cp .env.example .env    # then edit
+#   docker compose up -d --build
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_PHP_API: ${REACT_APP_PHP_API:-https://backend.orderwalabd.com/public/api}
+        REACT_APP_FILE_BASE: ${REACT_APP_FILE_BASE:-https://backend.orderwalabd.com/public/}
+        REACT_APP_HR_API: ${REACT_APP_HR_API:-/dotnet/hr/api}
+        REACT_APP_HR_SHIFT_API: ${REACT_APP_HR_SHIFT_API:-/dotnet/um/api/}
+        REACT_APP_UM_API: ${REACT_APP_UM_API:-/dotnet/um/api/}
+        REACT_APP_USER_API: ${REACT_APP_USER_API:-/dotnet/um/api/UserManagement}
+        REACT_APP_SC_API: ${REACT_APP_SC_API:-/dotnet/sc/api}
+    image: retail-erp-frontend:latest
+    environment:
+      # No trailing slash. https:// is supported.
+      HR_UPSTREAM: ${HR_UPSTREAM:-http://127.0.0.1:7101}
+      UM_UPSTREAM: ${UM_UPSTREAM:-http://127.0.0.1:7084}
+      SC_UPSTREAM: ${SC_UPSTREAM:-http://127.0.0.1:7031}
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
