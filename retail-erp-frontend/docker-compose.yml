@@ -1,10 +1,4 @@
-# Docker Compose deployment for Dokploy (or plain `docker compose up -d --build`).
-#
-# Runtime variables (HR_UPSTREAM, UM_UPSTREAM, SC_UPSTREAM) can be changed
-# without rebuilding. REACT_APP_* are baked into the bundle at build time.
-#
-#   cp .env.example .env    # then edit
-#   docker compose up -d --build
+name: orderwala-frontend
 
 services:
   frontend:
@@ -20,13 +14,15 @@ services:
         REACT_APP_USER_API: ${REACT_APP_USER_API:-/dotnet/um/api/UserManagement}
         REACT_APP_SC_API: ${REACT_APP_SC_API:-/dotnet/sc/api}
     image: retail-erp-frontend:latest
+    container_name: frontend-web
     environment:
-      # No trailing slash. https:// is supported.
-      HR_UPSTREAM: ${HR_UPSTREAM:-http://127.0.0.1:7101}
-      UM_UPSTREAM: ${UM_UPSTREAM:-http://127.0.0.1:7084}
-      SC_UPSTREAM: ${SC_UPSTREAM:-http://127.0.0.1:7031}
-    ports:
-      - "${FRONTEND_PORT:-3000}:80"
+      HR_UPSTREAM: ${HR_UPSTREAM:-http://hr-api:8080}
+      UM_UPSTREAM: ${UM_UPSTREAM:-http://usermanagement-api:8080}
+      SC_UPSTREAM: ${SC_UPSTREAM:-http://supplychain-api:8080}
+    expose:
+      - "80"
+    networks:
+      - orderwala-net
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
@@ -34,3 +30,8 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+networks:
+  orderwala-net:
+    name: dokploy-network
+    external: true
