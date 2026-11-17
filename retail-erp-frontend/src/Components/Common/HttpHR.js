@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// HRServices (.NET, https://localhost:7101/api in development).
-// In production this is proxied by nginx under the same origin, which avoids CORS.
+// HRServices (.NET). REACT_APP_HR_API is set in .env.development / .env.production;
+// the fallback keeps the nginx same-origin proxy used by the Docker image.
 const HttpHR = axios.create({
   baseURL: process.env.REACT_APP_HR_API || "/dotnet/hr/api",
   headers: {

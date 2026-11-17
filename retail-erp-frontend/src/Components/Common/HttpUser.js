@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// UserManagementServices (.NET, https://localhost:7084/api/UserManagement in development).
-// In production this is proxied by nginx under the same origin, which avoids CORS.
+// UserManagementServices (.NET). REACT_APP_USER_API is set in the env files;
+// the fallback keeps the nginx same-origin proxy used by the Docker image.
 const HttpUser = axios.create({
   baseURL: process.env.REACT_APP_USER_API || "/dotnet/um/api/UserManagement",
   headers: {

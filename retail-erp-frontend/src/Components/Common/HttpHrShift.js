@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// UserManagementServices (.NET, https://localhost:7084/api/ in development).
-// In production this is proxied by nginx under the same origin, which avoids CORS.
+// UserManagementServices (.NET). REACT_APP_HR_SHIFT_API is set in the env files;
+// the fallback keeps the nginx same-origin proxy used by the Docker image.
 const HttpHrShift = axios.create({
   baseURL: process.env.REACT_APP_HR_SHIFT_API || "/dotnet/um/api/",
   headers: {

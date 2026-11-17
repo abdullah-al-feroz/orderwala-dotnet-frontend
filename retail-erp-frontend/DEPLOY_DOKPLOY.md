@@ -178,7 +178,7 @@ docker compose up -d --build
 
 ```bash
 npm install
-npm start          # uses .env.development → localhost:7084 / 7031 / 7101 as before
+npm start          # uses .env.development → deployed Dokploy .NET API URLs
 npm run build      # uses .env.production → /dotnet/... proxy paths
 ```
 
